@@ -1,7 +1,9 @@
 const express = require('express')
 const app = express()
 
-const bannedUrls = [
+app.use(express.json())
+
+let bannedUrls = [
 	'virus.com',
 	'verybad.org',
 	'freemoney.scam'
@@ -10,11 +12,22 @@ const bannedUrls = [
 app.get('/v1/urlinfo/:url', (req, res) => {
 	console.log(req.params)
 	if(bannedUrls.includes(req.params.url.toLowerCase().split('/')[0])) {
-		res.end('<h1>banned</h1>')
+		res.status(200).end('banned')
 	} else {
-		res.end('<h1>allowed</h1>')
+		res.status(200).end('allowed')
 	}
 })
 
-app.listen(3000)
-console.log('Listening on http://localhost:3000')
+app.post('/v1/newurl', (req, res) => {
+	console.log(req.body)
+	if('url' in req.body) {
+		bannedUrls.push(req.body.url)
+		res.status(200).end('Success')
+	} else {
+		res.status(400).end('Missing url')
+	}	
+})
+
+app.listen(3000, () => {
+	console.log('Listening on http://localhost:3000')
+})
