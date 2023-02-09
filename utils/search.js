@@ -1,9 +1,4 @@
-// List of banned urls:
-let bannedUrls = [
-	'virus.com',
-	'verybad.org',
-	'freemoney.scam'
-]
+const {urlExists, insertUrl, closeClient} = require('./mongoDriver')
 
 // Formats url
 // returns url stripped of http:// or https:// and of query arguments
@@ -21,8 +16,8 @@ function formatUrl(url) {
 // params:
 //	url - the url to be searched
 // returns true if the url is banned, false otherwise.
-function isUrlBanned(url) {
-	return bannedUrls.includes(formatUrl(url))
+async function isUrlBanned(url) {
+	return urlExists(formatUrl(url))
 }
 
 // Attempts to add url to list of banned urls
@@ -32,10 +27,9 @@ function isUrlBanned(url) {
 function addUrl(url) {
 	const rootUrl = formatUrl(url)
 	if (rootUrl.length > 3 && rootUrl.includes('.')) {
-		bannedUrls.push(rootUrl)
-		return true
+		return insertUrl(rootUrl)
 	}
-	return false
+	return null
 }
 
 module.exports = {formatUrl, isUrlBanned, addUrl}

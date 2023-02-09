@@ -17,4 +17,8 @@ async function insertUrl(inputUrl) {
 	return result
 }
 
-module.exports = {urlExists, insertUrl}
+async function closeClient() {
+	await client.close()
+}
+
+module.exports = {urlExists, insertUrl, closeClient}
