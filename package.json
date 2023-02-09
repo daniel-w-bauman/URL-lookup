@@ -1,0 +1,22 @@
+{
+  "name": "url-lookup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daniel-w-bauman/URL-lookup.git"
+  },
+  "author": "daniel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daniel-w-bauman/URL-lookup/issues"
+  },
+  "homepage": "https://github.com/daniel-w-bauman/URL-lookup#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
