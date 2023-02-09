@@ -12,7 +12,8 @@ Pre-requisite:
 	https://docs.npmjs.com/cli/v7/configuring-npm/install
 
 Run the following command in the repository folder:
-npm start
+
+```npm start```
 
 Use the API as described below.
 
