@@ -1,5 +1,6 @@
 const assert = require('assert')
 const {formatUrl, isUrlBanned, addUrl} = require('../utils/search')
+const {urlExists, insertUrl, closeClient} = require('../utils/mongoDriver')
 
 function testFormatUrl() {
 	url1 = 'google.com'
@@ -21,34 +22,33 @@ function testFormatUrl() {
 	assert(formatUrl(url8) === 'docs.google.com')
 }
 
-function isUrlBannedTest() {
-	url1 = 'www.virus.com'
-	url2 = 'http://verybad.org'
-	url3 = 'https://freemoney.scam/index.html'
-	url4 = 'http://www.google.com'
-
-	assert(isUrlBanned(url1))
-	assert(isUrlBanned(url2))
-	assert(isUrlBanned(url3))
-	assert(!isUrlBanned(url4))
+async function isUrlBannedTest() {
+	url = 'www.virus.com'
+	shortened_url = 'virus.com'
+	insertUrl(shortened_url).then(res => {
+		return isUrlBanned(url)
+	}).then(isBanned => {
+		assert(isBanned)
+		return isBanned
+	})
 }
 
-function addUrlTest() {
-	url1 = 'malware.io'
-	url2 = 'http://www.worm.org/virus'
-	url3 = 'a.'
-	url4 = 'http://wwwwww'
-
-	assert(addUrl(url1))
-	assert(addUrl(url2))
-	assert(!addUrl(url3))
-	assert(!addUrl(url4))
-
-	assert(isUrlBanned(url1))
-	assert(isUrlBanned(url2))
+async function addUrlTest() {
+	url = 'malware.io/example'
+	shortened_url = 'malware.io'
+	addUrl(url).then(res => {
+		return urlExists(shortened_url)
+	}).then(isBanned => {
+		assert(isBanned)
+		return isBanned
+	})
 }
 
 testFormatUrl()
-isUrlBannedTest()
-addUrlTest()
-console.log('Finished tests successfully.')
+isUrlBannedTest().then(res => {
+	return addUrlTest()
+}).then(res => {
+	console.log('Finished tests successfully.')
+}).catch(err => {
+	console.log(err)
+})

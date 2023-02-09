@@ -10,5 +10,5 @@ GET /v1/urlinfo/<URL>
 
 POST /v1/newurl
 - parameters:
-		- url: the new malware URL to be added to the list
-			- must be at least 3 characters long and contain a period.
+    - url: the new malware URL to be added to the list
+        - must be at least 3 characters long and contain a period.
